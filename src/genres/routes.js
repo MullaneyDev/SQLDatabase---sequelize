@@ -3,8 +3,8 @@ const genreRouter = Router()
 
 const {addGenre, getBooks} = require("./controllers")
 
-genreRouter.post ("/genres", addGenre)
+genreRouter.post ("/", addGenre)
 
-genreRouter.get("/genres/:genre", getBooks)
+genreRouter.get("/:genre", getBooks)
 
 module.exports = genreRouter

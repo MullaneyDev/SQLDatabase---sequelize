@@ -9,36 +9,21 @@ const addBook = async (req, res) => {
     price: req.body.price,
   });
 
-  const successResponse = {
-    message: "success",
-    newBook: newBook,
-  };
-
-  res.send(successResponse);
+  res.send({message:"success", newBook});
 };
 
 // GET
 const findAllBooks = async (req, res) => {
   const getBooks = await Book.findAll();
 
-  const successResponse = {
-    message: "success",
-    getBooks: getBooks,
-  };
-
-  res.send(successResponse);
+  res.send({message:"success",getBooks});
 };
 
 // GET
 const findBookByAuthor = async (req, res) => {
   const getBook = await Book.findAll({ where: { author: req.params.author } });
 
-  const successResponse = {
-    message: "success",
-    getBook: getBook,
-  };
-
-  res.send(successResponse);
+  res.send({message:"success",getBook});
 };
 
 // PUT
@@ -48,33 +33,28 @@ const editTitle = async (req, res) => {
     { where: { title: req.body.title } }
   );
 
-  res.send({ message: "success", updateTitle: updateTitle });
+  res.send({ message: "success",updateTitle });
 };
 
 // DELETE
 const deleteByTitle = async (req, res) => {
   const deleteBook = await Book.destroy({ where: { title: req.params.title } });
 
-  res.send({ message: "success", deleteBook: deleteBook });
+  res.send({ message: "success",deleteBook });
 };
 
 //DELETE
 const deleteAll = async (req, res) => {
   const deleteDB = await Book.destroyAll();
 
-  const successResponse = {
-    message: "success",
-    deleteDB: deleteDB,
-  };
-
-  res.send(successResponse);
+  res.send({message: "success", deleteDB});
 };
 
 module.exports = {
-  addBook: addBook,
-  findAllBooks: findAllBooks,
-  findBookByAuthor: findBookByAuthor,
-  editTitle: editTitle,
-  deleteByTitle: deleteByTitle,
-  deleteAll: deleteAll,
+  addBook,
+  findAllBooks,
+  findBookByAuthor,
+  editTitle,
+  deleteByTitle,
+  deleteAll,
 };

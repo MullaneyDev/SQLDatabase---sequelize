@@ -7,7 +7,7 @@ const addAuthor = async (req, res) => {
     authorID: req.body.authorID,
     authorName: req.body.authorName,
   });
-  res.send({ message: "success", newAuthor: newAuthor });
+  res.send({ message: "success", newAuthor });
 };
 
 // GET
@@ -20,12 +20,12 @@ const getBooks = async (req, res) => {
   });
   res.send({
     message: "success",
-    searchAuthor: searchAuthor,
-    findAuthorsBooks: findAuthorsBooks,
+    searchAuthor,
+    findAuthorsBooks,
   });
 };
 
 module.exports = {
-  addAuthor: addAuthor,
-  getBooks: getBooks,
+  addAuthor,
+  getBooks,
 };

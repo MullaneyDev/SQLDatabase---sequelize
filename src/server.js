@@ -14,9 +14,9 @@ const app = express();
 
 app.use(express.json());
 
-app.use(bookRouter);
-app.use(authorRouter);
-app.use(genreRouter);
+app.use("/books", bookRouter);
+app.use("/authors", authorRouter);
+app.use("/genres", genreRouter);
 
 const syncTables = async () => {
   await Book.sync();

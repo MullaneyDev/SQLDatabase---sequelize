@@ -10,16 +10,16 @@ const {
   editTitle,
 } = require("./controllers");
 
-bookRouter.post("/books", addBook);
+bookRouter.post("/", addBook);
 
-bookRouter.get("/books", findAllBooks);
+bookRouter.get("/", findAllBooks);
 
-bookRouter.get("/books/:author", findBookByAuthor);
+bookRouter.get("/:author", findBookByAuthor);
 
-bookRouter.put("/books", editTitle);
+bookRouter.put("", editTitle);
 
-bookRouter.delete("/books/delete/:title", deleteByTitle);
+bookRouter.delete("/delete/:title", deleteByTitle);
 
-bookRouter.delete("/books/deleteAll", deleteAll);
+bookRouter.delete("/deleteAll", deleteAll);
 
 module.exports = bookRouter;

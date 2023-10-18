@@ -7,7 +7,7 @@ const addGenre = async (req, res) => {
     genreID: req.body.genreID,
     genreName: req.body.genreName,
   });
-  res.send({ message: "success", newGenre: newGenre });
+  res.send({ message: "success", newGenre });
 };
 
 //GET
@@ -20,12 +20,12 @@ const getBooks = async (req, res) => {
   });
   res.send({
     message: "success",
-    searchGenre: searchGenre,
-    findGenreBooks: findGenreBooks,
+    searchGenre,
+    findGenreBooks,
   });
 };
 
 module.exports = {
-  addGenre: addGenre,
-  getBooks: getBooks,
+  addGenre,
+  getBooks,
 };
