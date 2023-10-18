@@ -1,6 +1,8 @@
 const { DataTypes } = require("sequelize");
 
 const connection = require("../db/connection");
+// const Author = require("../authors/model");
+// const Genre = require("../genres/model");
 
 const Book = connection.define("Book", {
   title: {

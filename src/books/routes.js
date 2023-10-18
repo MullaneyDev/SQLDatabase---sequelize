@@ -16,7 +16,7 @@ bookRouter.get("/", findAllBooks);
 
 bookRouter.get("/:author", findBookByAuthor);
 
-bookRouter.put("", editTitle);
+bookRouter.put("/", editTitle);
 
 bookRouter.delete("/delete/:title", deleteByTitle);
 
