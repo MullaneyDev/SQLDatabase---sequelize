@@ -1,5 +1,6 @@
 const Genre = require("../genres/model");
 const Book = require("../books/model");
+const Author = require("../authors/model")
 const { findMissingRequiredFields } = require("../utils/utils");
 
 // POST
@@ -58,6 +59,13 @@ const getBooks = async (req, res) => {
       where: { genreName: req.params.genre },
       include: Book,
     });
+
+    const authorsArray = searchGenre[0].Books;
+    for (let i = 0; i < authorsArray.length; i++) {
+      authorsArray[i].dataValues.Genre = await Author.findOne({
+        where: { id: authorsArray[i].dataValues.AuthorId },
+      });
+    }
 
     if (searchGenre.length < 1) {
       res.status(404).json({ message: "No genres by that name" });

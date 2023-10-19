@@ -20,13 +20,10 @@ app.use("/genres", genreRouter);
 
 const syncTables = async () => {
   await Author.hasMany(Book)
-  await Author.hasMany(Genre)
   await Genre.hasMany(Book)
-  await Genre.hasMany(Author)
   await Book.belongsTo(Author)
   await Book.belongsTo(Genre)
-  await Genre.belongsTo(Author)
-  await Author.belongsTo(Genre)
+
 
   
   await Author.sync({ alter: true });
