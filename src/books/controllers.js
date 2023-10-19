@@ -55,12 +55,12 @@ const findAllBooks = async (req, res) => {
 // GET
 const findBookByTitle = async (req, res) => {
   try {
-    const getBook = await Book.findOne({
+    const getBook = await Book.findAll({
       where: { title: req.params.title },
     });
 
-    const author = await getBook.getAuthor();
-    const genre = await getBook.getGenre();
+    const author = await getBook[0].getAuthor();
+    const genre = await getBook[0].getGenre();
 
     if (getBook.length >= 1) {
       res.status(200).json({ message: "success", getBook, author, genre });

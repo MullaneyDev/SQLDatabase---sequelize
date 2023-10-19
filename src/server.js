@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors")
 
 const Book = require("./books/model");
 const Author = require("./authors/model");
@@ -12,7 +13,9 @@ const port = process.env.PORT || 5001;
 
 const app = express();
 
+
 app.use(express.json());
+app.use(cors())
 
 app.use("/books", bookRouter);
 app.use("/authors", authorRouter);
@@ -24,8 +27,6 @@ const syncTables = async () => {
   await Book.belongsTo(Author)
   await Book.belongsTo(Genre)
 
-
-  
   await Author.sync({ alter: true });
   await Genre.sync({ alter: true });
   await Book.sync({alter: true});
