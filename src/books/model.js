@@ -10,12 +10,6 @@ const Book = connection.define("Book", {
     unique: true,
     allowNull: false,
   },
-  author: {
-    type: DataTypes.STRING,
-  },
-  genre: {
-    type: DataTypes.STRING,
-  },
   price: {
     type: DataTypes.INTEGER,
   },

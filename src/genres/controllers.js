@@ -16,7 +16,7 @@ const addGenre = async (req, res) => {
       res.status(409).json({ message: "Body is missing" });
       return;
     }
-    const requiredFields = ["genreName", "genreID"];
+    const requiredFields = ["genreName"];
     const missingFields = findMissingRequiredFields(requiredFields, req.body);
 
     if (missingFields.length >= 1) {
@@ -48,7 +48,7 @@ const getGenres = async (req, res) => {
     }
     res.status(409).json({ message: "No records exist" });
   } catch (error) {
-    res.stats(503).json({ message: error.message, error });
+    res.status(503).json({ message: error.message, error });
   }
 };
 //GET
@@ -56,30 +56,23 @@ const getBooks = async (req, res) => {
   try {
     const searchGenre = await Genre.findAll({
       where: { genreName: req.params.genre },
+      include: Book,
     });
-    const findGenresBooks = await Book.findAll({
-      where: { genre: req.params.genre },
-    });
+
     if (searchGenre.length < 1) {
       res.status(404).json({ message: "No genres by that name" });
       return;
     }
-    if (findGenresBooks.length < 1) {
-      res
-        .status(404)
-        .json({ message: `No books in ${req.params.genre} genre` });
-      return;
-    }
-    if (searchGenre.length >= 1 && findGenresBooks.length >= 1) {
+
+    if (searchGenre.length >= 1) {
       res.status(200).json({
         message: "success",
         searchGenre,
-        findGenresBooks,
       });
       return;
     }
   } catch (error) {
-    res.stats(503).json({ message: error.message, error });
+    res.status(503).json({ message: error.message, error });
   }
 };
 

@@ -3,18 +3,21 @@ const bookRouter = Router();
 
 const {
   findAllBooks,
-  findBookByAuthor,
+  findBookByAuthorID,
   addBook,
   deleteAll,
   deleteByTitle,
   editTitle,
+  findBookByTitle,
 } = require("./controllers");
 
 bookRouter.post("/", addBook);
 
 bookRouter.get("/", findAllBooks);
 
-bookRouter.get("/:author", findBookByAuthor);
+bookRouter.get("/:title", findBookByTitle)
+
+bookRouter.get("/author/:authorID", findBookByAuthorID);
 
 bookRouter.put("/", editTitle);
 

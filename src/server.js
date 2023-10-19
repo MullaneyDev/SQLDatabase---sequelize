@@ -19,9 +19,19 @@ app.use("/authors", authorRouter);
 app.use("/genres", genreRouter);
 
 const syncTables = async () => {
-  await Book.sync();
-  await Author.sync();
-  await Genre.sync();
+  await Author.hasMany(Book)
+  await Author.hasMany(Genre)
+  await Genre.hasMany(Book)
+  await Genre.hasMany(Author)
+  await Book.belongsTo(Author)
+  await Book.belongsTo(Genre)
+  await Genre.belongsTo(Author)
+  await Author.belongsTo(Genre)
+
+  
+  await Author.sync({ alter: true });
+  await Genre.sync({ alter: true });
+  await Book.sync({alter: true});
 };
 
 app.get("/health", (req, res) => {

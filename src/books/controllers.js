@@ -1,5 +1,7 @@
 const Book = require("./model");
-const {findMissingRequiredFields} = require("../utils/utils")
+const Author = require("../authors/model");
+const Genre = require("../genres/model");
+const { findMissingRequiredFields } = require("../utils/utils");
 
 // POST
 const addBook = async (req, res) => {
@@ -14,7 +16,7 @@ const addBook = async (req, res) => {
       return;
     }
 
-    const requiredFields = ["title", "author", "genre", "price"];
+    const requiredFields = ["title", "AuthorId", "GenreId", "price"];
     const missingFields = findMissingRequiredFields(requiredFields, req.body);
 
     if (missingFields.length >= 1) {
@@ -24,12 +26,7 @@ const addBook = async (req, res) => {
       return;
     }
 
-    const newBook = await Book.create({
-      title: req.body.title,
-      author: req.body.author,
-      genre: req.body.genre,
-      price: req.body.price,
-    });
+    const newBook = await Book.create(req.body);
 
     res.status(201).json({ message: "success", newBook });
   } catch (error) {
@@ -51,16 +48,37 @@ const findAllBooks = async (req, res) => {
     }
     res.status(409).json({ message: "No records exist" });
   } catch (error) {
-    res.stats(503).json({ message: error.message, error });
+    res.status(503).json({ message: error.message, error });
   }
 };
 
 // GET
-const findBookByAuthor = async (req, res) => {
+const findBookByTitle = async (req, res) => {
+  try {
+    const getBook = await Book.findOne({
+      where: { title: req.params.title },
+    });
+
+    const author = await getBook.getAuthor();
+    const genre = await getBook.getGenre();
+
+    if (getBook.length >= 1) {
+      res.status(200).json({ message: "success", getBook, author, genre });
+      return;
+    }
+    res.status(404).json({ message: "No books by this title in the database" });
+  } catch (error) {
+    res.status(503).json({ message: error.message, error });
+  }
+};
+
+// GET
+const findBookByAuthorID = async (req, res) => {
   try {
     const getBook = await Book.findAll({
-      where: { author: req.params.author },
+      where: { AuthorId: req.params.authorID },
     });
+
     if (getBook.length >= 1) {
       res.status(200).json({ message: "success", getBook });
       return;
@@ -69,7 +87,7 @@ const findBookByAuthor = async (req, res) => {
       .status(404)
       .json({ message: "No books by this author in the database" });
   } catch (error) {
-    res.stats(503).json({ message: error.message, error });
+    res.status(503).json({ message: error.message, error });
   }
 };
 
@@ -122,7 +140,8 @@ const deleteAll = async (req, res) => {
 module.exports = {
   addBook,
   findAllBooks,
-  findBookByAuthor,
+  findBookByTitle,
+  findBookByAuthorID,
   editTitle,
   deleteByTitle,
   deleteAll,
