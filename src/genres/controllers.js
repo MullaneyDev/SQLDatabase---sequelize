@@ -27,7 +27,6 @@ const addGenre = async (req, res) => {
       return;
     }
     const newGenre = await Genre.create({
-      genreID: req.body.genreID,
       genreName: req.body.genreName,
     });
     res.send({ message: "success", newGenre });

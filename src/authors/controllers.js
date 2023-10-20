@@ -24,7 +24,6 @@ const addAuthor = async (req, res) => {
       return;
     }
     const newAuthor = await Author.create({
-      authorID: req.body.authorID,
       authorName: req.body.authorName,
     });
     res.send({ message: "success", newAuthor });
@@ -56,17 +55,18 @@ const getBooks = async (req, res) => {
   try {
     const searchAuthor = await Author.findAll({
       where: { authorName: req.params.author },
-      include: Book,
+      // include: Book,Genre
+
     });
 
-    const booksArray = searchAuthor[0].Books;
-    for (let index = 0; index < booksArray.length; index++) {
-      booksArray[index].dataValues.Genre = (
-        await Genre.findOne({
-          where: { id: booksArray[index].dataValues.GenreId },
-        })
-      );
-    }
+    // const booksArray = searchAuthor[0].Books;
+    // for (let index = 0; index < booksArray.length; index++) {
+    //   booksArray[index].dataValues.Genre = (
+    //     await Genre.findOne({
+    //       where: { id: booksArray[index].dataValues.GenreId },
+    //     })
+    //   );
+    // }
 
     if (searchAuthor.length < 1) {
       res.status(404).json({ message: "No authors by that name" });
@@ -77,7 +77,6 @@ const getBooks = async (req, res) => {
       res.status(200).json({
         message: "success",
         searchAuthor,
-        booksArray,
       });
       return;
     }
