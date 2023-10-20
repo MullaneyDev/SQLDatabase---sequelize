@@ -3,7 +3,6 @@ const bookRouter = Router();
 
 const {
   findAllBooks,
-  findBookByAuthorID,
   addBook,
   deleteAll,
   deleteByTitle,
@@ -17,7 +16,6 @@ bookRouter.get("/", findAllBooks);
 
 bookRouter.get("/:title", findBookByTitle)
 
-bookRouter.get("/author/:authorID", findBookByAuthorID);
 
 bookRouter.put("/", editTitle);
 
