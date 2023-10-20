@@ -74,24 +74,6 @@ const findBookByTitle = async (req, res) => {
   }
 };
 
-// GET
-const findBookByAuthorID = async (req, res) => {
-  try {
-    const getBook = await Book.findAll({
-      where: { AuthorId: req.params.authorID },
-    });
-
-    if (getBook.length >= 1) {
-      res.status(200).json({ message: "success", getBook });
-      return;
-    }
-    res
-      .status(404)
-      .json({ message: "No books by this author in the database" });
-  } catch (error) {
-    res.status(503).json({ message: error.message, error });
-  }
-};
 
 // PUT
 const editTitle = async (req, res) => {
@@ -143,7 +125,6 @@ module.exports = {
   addBook,
   findAllBooks,
   findBookByTitle,
-  findBookByAuthorID,
   editTitle,
   deleteByTitle,
   deleteAll,
