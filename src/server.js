@@ -5,8 +5,7 @@ const cors = require("cors");
 const Book = require("./books/model");
 const Author = require("./authors/model");
 const Genre = require("./genres/model");
-const {Author_Genre,Author_Book,Genre_Book} = require("./throughModels")
-
+const { Author_Genre, Author_Book, Genre_Book } = require("./throughModels");
 
 const bookRouter = require("./books/routes");
 const authorRouter = require("./authors/routes");
@@ -24,27 +23,26 @@ app.use("/authors", authorRouter);
 app.use("/genres", genreRouter);
 
 const syncTables = async () => {
-  // await Author.hasMany(Book)
-  // await Genre.hasMany(Book)
-  // await Book.belongsTo(Author)
-  // await Book.belongsTo(Genre)
 
-  await Author.belongsToMany(Genre, { through: "Author_Genre" }, Book, {
+  await Author.belongsToMany(Genre, { through: "Author_Genre" });
+  await Author.belongsToMany(Book, {
     through: "Author_Book",
   });
-  await Genre.belongsToMany(Author, { through: "Author_Genre" }, Book, {
+  await Genre.belongsToMany(Author, { through: "Author_Genre" });
+  await Genre.belongsToMany(Book, {
     through: "Genre_Book",
   });
-  await Book.belongsToMany(Author, { through: "Author_Book" }, Genre, {
+  await Book.belongsToMany(Author, { through: "Author_Book" });
+  await Book.belongsToMany(Genre, {
     through: "Genre_Book",
   });
 
-  await Author.sync({ alter: true});
-  await Genre.sync({ alter: true});
-  await Book.sync({ alter: true});
-  await Author_Genre.sync({ alter: true});
-  await Author_Book.sync({ alter: true});
-  await Genre_Book.sync({ alter: true});
+  await Author.sync({ alter: true });
+  await Genre.sync({ alter: true });
+  await Book.sync({ alter: true });
+  await Author_Genre.sync({ alter: true });
+  await Author_Book.sync({ alter: true });
+  await Genre_Book.sync({ alter: true });
 };
 
 app.get("/health", (req, res) => {

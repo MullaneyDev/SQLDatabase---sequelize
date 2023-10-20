@@ -53,20 +53,10 @@ const getAuthors = async (req, res) => {
 // GET
 const getBooks = async (req, res) => {
   try {
-    const searchAuthor = await Author.findAll({
+    let searchAuthor = await Author.findAll({
       where: { authorName: req.params.author },
-      // include: Book,Genre
-
+      include: [{ model: Book, include: [Genre] }],
     });
-
-    // const booksArray = searchAuthor[0].Books;
-    // for (let index = 0; index < booksArray.length; index++) {
-    //   booksArray[index].dataValues.Genre = (
-    //     await Genre.findOne({
-    //       where: { id: booksArray[index].dataValues.GenreId },
-    //     })
-    //   );
-    // }
 
     if (searchAuthor.length < 1) {
       res.status(404).json({ message: "No authors by that name" });

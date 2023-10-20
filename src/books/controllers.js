@@ -27,6 +27,10 @@ const addBook = async (req, res) => {
     }
 
     const newBook = await Book.create(req.body);
+    const author = await Author.findOne({where:{id: req.body.AuthorId}})
+    const genre = await Genre.findOne({where:{id: req.body.GenreId}})
+    newBook.addAuthor(author)
+    newBook.addGenre(genre)
 
     res.status(201).json({ message: "success", newBook });
   } catch (error) {
@@ -41,7 +45,7 @@ const addBook = async (req, res) => {
 // GET
 const findAllBooks = async (req, res) => {
   try {
-    const getBooks = await Book.findAll();
+    const getBooks = await Book.findAll({include: [Author,Genre]});
     if (getBooks.length >= 1) {
       res.status(200).json({ message: "success", getBooks });
       return;
@@ -57,13 +61,11 @@ const findBookByTitle = async (req, res) => {
   try {
     const getBook = await Book.findAll({
       where: { title: req.params.title },
+      include: [Author,Genre]
     });
 
-    const author = await getBook[0].getAuthor();
-    const genre = await getBook[0].getGenre();
-
     if (getBook.length >= 1) {
-      res.status(200).json({ message: "success", getBook, author, genre });
+      res.status(200).json({ message: "success", getBook, });
       return;
     }
     res.status(404).json({ message: "No books by this title in the database" });

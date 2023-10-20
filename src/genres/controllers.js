@@ -56,15 +56,8 @@ const getBooks = async (req, res) => {
   try {
     const searchGenre = await Genre.findAll({
       where: { genreName: req.params.genre },
-      include: Book,
+      include: [{model:Book, include: [Author]}]
     });
-
-    const authorsArray = searchGenre[0].Books;
-    for (let i = 0; i < authorsArray.length; i++) {
-      authorsArray[i].dataValues.Genre = await Author.findOne({
-        where: { id: authorsArray[i].dataValues.AuthorId },
-      });
-    }
 
     if (searchGenre.length < 1) {
       res.status(404).json({ message: "No genres by that name" });
